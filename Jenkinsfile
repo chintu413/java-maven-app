@@ -6,7 +6,7 @@ library identigier:'jenkins-shared-library@master', retriver: modernSCM(
         credentialsId: 'gitlab-credentials']
 )
 
-pipeline {   
+pipeline {
     agent any
     tools {
         maven 'Maven'
@@ -26,30 +26,31 @@ pipeline {
 
 
                     }
-            }
-        }
-        stage("build") {
-            steps {
-                script {
-                    echo 'building the docker image...'
-                    buildImage(env.IMAGE_NAME)
-                    dockerLogin()
-                    dockerPush(env.IMAGE_NAME)
-
                 }
             }
-        }
+            stage("build") {
+                steps {
+                    script {
+                        echo 'building the docker image...'
+                        buildImage(env.IMAGE_NAME)
+                        dockerLogin()
+                        dockerPush(env.IMAGE_NAME)
 
-        stage("deploy") {
-            steps {
-                script {
-                    echo 'deploying docker image to EC2...'
-                    def dockerCmd = 'docker run -p 3080:3080 -d chintu413/my-first-docker-image:1.1'
-                    sshagent(['ec2-server-key']) {
-                       sh "ssh -o StrictHostKeyChecking=no ec2-user@13.235.245.151 ${dockerCmd}"
                     }
                 }
             }
-        }               
+
+            stage("deploy") {
+                steps {
+                    script {
+                        echo 'deploying docker image to EC2...'
+                        def dockerCmd = 'docker run -p 3080:3080 -d chintu413/my-first-docker-image:1.1'
+                        sshagent(['ec2-server-key']) {
+                            sh "ssh -o StrictHostKeyChecking=no ec2-user@13.235.245.151 ${dockerCmd}"
+                        }
+                    }
+                }
+            }
+        }
     }
-} 
+}
