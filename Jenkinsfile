@@ -1,10 +1,12 @@
 #!/usr/bin.env groovy
 
-library identigier:'jenkins-shared-library@master', retriver: modernSCM(
-        [$class : 'GitSCMSource',
-        remote: "https://github.com/chintu413/jenkins-shared-library.git",
-        credentialsId: 'gitlab-credentials']
+library identifier: 'jenkins-shared-library@master', retriever: modernSCM(
+        [$class: 'GitSCMSource',
+         remote: 'https://github.com/chintu413/jenkins-shared-library.git',
+         credentialsID: 'gitlab-credentials'
+        ]
 )
+
 
 pipeline {
     agent any
@@ -18,16 +20,14 @@ pipeline {
         stage("build app") {
             steps {
                 script {
-                    stage('build app') {
-                        steps {
-                            echo 'building application jar...'
-                            buildJar()
+
+                    echo 'building application jar...'
+                    buildJar()
                         }
 
 
                     }
                 }
-            }
             stage("build") {
                 steps {
                     script {
@@ -50,7 +50,5 @@ pipeline {
                         }
                     }
                 }
-            }
-        }
-    }
+            }        }
 }
