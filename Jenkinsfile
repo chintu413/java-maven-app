@@ -11,7 +11,7 @@ library identifier: 'jenkins-shared-library@master', retriever: modernSCM(
 pipeline {
     agent any
     tools {
-        maven 'Maven'
+        maven 'maven-3.9'
     }
     environment {
         IMAGE_NAME = 'chintu413/my-first-docker-image:1.1'
