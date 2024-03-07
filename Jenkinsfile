@@ -33,7 +33,7 @@ pipeline {
                     script {
                         echo 'building the docker image...'
                         buildImage(env.IMAGE_NAME)
-                        dockerLogin()
+                        /dockerLogin()/
                         dockerPush(env.IMAGE_NAME)
 
                     }
